@@ -8,7 +8,8 @@
 namespace btx {
 
 void ConsoleLog::trace(std::string_view const msg) {
-    ::fprintf(stdout, "%s\n", msg.data());
+    auto const formatted_msg = _format(Colors::reset, msg);
+    ::fprintf(stdout, "%s\n", formatted_msg.c_str());
 }
 
 void ConsoleLog::info(std::string_view const msg) {
