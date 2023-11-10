@@ -2,6 +2,7 @@
 #define BRASSTACKS_LOG_CONSOLELOG_HPP
 
 #include <string_view>
+#include <string>
 
 namespace btx {
 

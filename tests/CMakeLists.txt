@@ -18,29 +18,30 @@ file(
     "*.hpp"
 )
 
-set(TEST_TARGET_NAME brasstacks_log_tests)
+set(BINARY_TARGET brasstacks_log_tests)
 
 add_executable(
-    ${TEST_TARGET_NAME}
+    ${BINARY_TARGET}
 	${TESTS_SOURCE}
 	${TESTS_HEADERS}
 )
 
 target_include_directories(
-    ${TEST_TARGET_NAME} PUBLIC
+    ${BINARY_TARGET} PUBLIC
     ${CMAKE_SOURCE_DIR}
 )
 
 target_link_libraries(
-	${TEST_TARGET_NAME} PUBLIC
+	${BINARY_TARGET} PUBLIC
 	brasstacks_log
     Catch2::Catch2WithMain
 )
 
 set_target_properties(
-	${TEST_TARGET_NAME} PROPERTIES
+	${BINARY_TARGET} PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
+    CXX_EXTENSIONS OFF
 
 	RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_SOURCE_DIR}/debug/bin
 	RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/release/bin
