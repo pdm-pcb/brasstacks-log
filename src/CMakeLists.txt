@@ -1,28 +1,29 @@
+set(TARGET_NAME brasstacks_log)
+
 file(
     GLOB_RECURSE LIBRARY_SOURCE
     "${CMAKE_SOURCE_DIR}/src/*.cpp"
 )
 file(
     GLOB_RECURSE LIBRARY_HEADERS
-    "${CMAKE_SOURCE_DIR}/include/brasstacks/log/*.hpp"
+    "${CMAKE_SOURCE_DIR}/include/*.hpp"
 )
 
-set(LIBRARY_TARGET brasstacks_log)
-
 add_library(
-    ${LIBRARY_TARGET} STATIC
+    ${TARGET_NAME} STATIC
 	${LIBRARY_SOURCE}
     ${LIBRARY_HEADERS}
 )
 
 target_include_directories(
-    ${LIBRARY_TARGET} PUBLIC
+    ${TARGET_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/include/
 )
 
-if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR
+   CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(
-        ${LIBRARY_TARGET} PUBLIC
+        ${TARGET_NAME} PUBLIC
         "-Wall" # All, extra, and pedantic warnings
         "-Wextra"
         "-pedantic"
@@ -30,78 +31,50 @@ if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux")
 
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         target_compile_options(
-            ${LIBRARY_TARGET} PUBLIC
+            ${TARGET_NAME} PUBLIC
             "-O0"       # No optimization
             "-ggdb3"    # All the gdb flags
         )
     elseif(CMAKE_BUILD_TYPE MATCHES "Release")
         target_compile_options(
-            ${LIBRARY_TARGET} PUBLIC
-            "-O3"           # Healthy optimization
-            "-ffast-math"   # Gotta go fast
+            ${TARGET_NAME} PUBLIC
+            "-O3"       # Healthy optimization
         )
     endif()
-elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
-    if(CMAKE_C_COMPILER MATCHES "clang")
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+    target_compile_definitions(
+        ${TARGET_NAME} PUBLIC
+        "_CRT_SECURE_NO_WARNINGS" # Ignore "may be unsafe" warnings
+        "WIN64"                   # Prefer 64 bit address space
+    )
+
+    target_compile_options(
+        ${TARGET_NAME} PUBLIC
+        "/Wall" # Warnin's
+    )
+
+    if(CMAKE_BUILD_TYPE MATCHES "Debug")
         target_compile_options(
-            ${LIBRARY_TARGET} PUBLIC
-            "-Wall" # All, extra, and pedantic warnings
-            "-Wextra"
-            "-pedantic"
+            ${TARGET_NAME} PUBLIC
+            "/Od"       # Optimization disabled
+            "/Zi"		# Generate .pdb files: implied /debug
+            "/JMC"      # Just-My-Code: only step over user code
+            "/RTCs"     # Runtime checks for stack frame behaviors
+            "/RTCu"     # Runtime checks for uninitialized variables
+            "/GS"       # Buffer overrun checks
+            "/sdl"      # Compile and runtime security checks
+            "/diagnostics:column" # Include column in compiler messages
         )
-
-        if(CMAKE_BUILD_TYPE MATCHES "Debug")
-            target_compile_options(
-                ${LIBRARY_TARGET} PUBLIC
-                "-O0"       # No optimization
-                "-ggdb3"    # All the gdb flags
-            )
-        elseif(CMAKE_BUILD_TYPE MATCHES "Release")
-            target_compile_options(
-                ${LIBRARY_TARGET} PUBLIC
-                "-O3"           # Healthy optimization
-                "-ffast-math"   # Gotta go fast
-            )
-        endif()
-    else()
-        target_compile_definitions(
-            ${LIBRARY_TARGET} PUBLIC
-            "_CRT_SECURE_NO_WARNINGS" # Ignore "may be unsafe" warnings
-            "WIN64"                   # Prefer 64 bit address space
-        )
-
+    elseif(CMAKE_BUILD_TYPE MATCHES "Release")
         target_compile_options(
-            ${LIBRARY_TARGET} PUBLIC
-            "/nologo"  # Suppress copyright message
-            "/W4"	   # Warnin's
-            "/wd4312"  # Disable the warning for casting to a larger size
-            "/wd4324"  # Disable the warning for padding due to alignas
+            ${TARGET_NAME} PUBLIC
+            "/O2"       # Optimization not disabled =D
         )
-
-        if(CMAKE_BUILD_TYPE MATCHES "Debug")
-            target_compile_options(
-                ${LIBRARY_TARGET} PUBLIC
-                "/JMC"      # Just-My-Code
-                "/Zi"		# Debugging information
-                "/RTC1"     # Runtime checks
-                "/GS"       # Buffer overrun checks
-                "/sdl"      # Security warnings
-                "/Od"       # Optimization disabled
-                "/diagnostics:column" # Include column in compiler messages
-            )
-        elseif(CMAKE_BUILD_TYPE MATCHES "Release")
-            target_compile_options(
-                ${LIBRARY_TARGET} PUBLIC
-                "/O2"         # Optimization not disabled =D
-                "/fp:fast"    # Gotta go fast
-                "/GS-"        # No buffer overrun checks
-            )
-        endif()
     endif()
 endif()
 
 set_target_properties(
-	${LIBRARY_TARGET} PROPERTIES
+	${TARGET_NAME} PROPERTIES
 	CXX_STANDARD 20
 	CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
