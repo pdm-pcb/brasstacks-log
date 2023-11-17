@@ -21,7 +21,7 @@ file(
 )
 
 add_executable(
-    ${TARGET_NAME} EXCLUDE_FROM_ALL
+    ${TARGET_NAME}
 	${TESTS_SOURCE}
 	${TESTS_HEADERS}
 )

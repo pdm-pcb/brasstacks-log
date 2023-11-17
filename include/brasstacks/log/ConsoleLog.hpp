@@ -3,6 +3,9 @@
 
 #include <string_view>
 #include <string>
+#include <chrono>
+#include <list>
+#include <mutex>
 
 namespace btx {
 
@@ -12,6 +15,8 @@ public:
     static void info(std::string_view const msg);
     static void warn(std::string_view const msg);
     static void error(std::string_view const msg);
+
+    static void dump();
 
     ConsoleLog() = delete;
     ~ConsoleLog() = delete;
@@ -23,6 +28,25 @@ public:
     ConsoleLog & operator=(ConsoleLog const &) = delete;
 
 private:
+    using Clock = std::chrono::system_clock;
+    using TimePoint = std::chrono::time_point<Clock>;
+    using ClockRes = std::chrono::milliseconds;
+
+    struct Message {
+        TimePoint const ts;
+        std::string const msg;
+    };
+
+    struct MessageBuffer {
+        std::list<Message> list;
+        std::mutex mutex;
+    };
+
+    static MessageBuffer _trace_buffer;
+    static MessageBuffer _info_buffer;
+    static MessageBuffer _warn_buffer;
+    static MessageBuffer _error_buffer;
+
     struct Colors {
         static constexpr char red[]    = "\033[31m";
         static constexpr char green[]  = "\033[32m";
@@ -30,7 +54,7 @@ private:
         static constexpr char reset[]  = "\033[m";
     };
 
-    static std::string _format(char const *color, std::string_view const msg);
+    static Message _format(char const *color, std::string_view const msg);
 };
 
 } // namespace btx
