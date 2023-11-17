@@ -47,7 +47,7 @@ void ConsoleLog::error(std::string_view const msg) {
 void ConsoleLog::dump() {
     static std::list<Message> messages;
 
-    if(!_trace_buffer.list.empty()) {
+    {
         std::unique_lock const lock(_trace_buffer.mutex);
         std::move(
             _trace_buffer.list.begin(),
@@ -57,7 +57,7 @@ void ConsoleLog::dump() {
         _trace_buffer.list.clear();
     }
 
-    if(!_info_buffer.list.empty()) {
+    {
         std::unique_lock const lock(_info_buffer.mutex);
         std::move(
             _info_buffer.list.begin(),
@@ -67,7 +67,7 @@ void ConsoleLog::dump() {
         _info_buffer.list.clear();
     }
 
-    if(!_warn_buffer.list.empty()) {
+    {
         std::unique_lock const lock(_warn_buffer.mutex);
         std::move(
             _warn_buffer.list.begin(),
@@ -77,7 +77,7 @@ void ConsoleLog::dump() {
         _warn_buffer.list.clear();
     }
 
-    if(!_error_buffer.list.empty()) {
+    {
         std::unique_lock const lock(_error_buffer.mutex);
         std::move(
             _error_buffer.list.begin(),
