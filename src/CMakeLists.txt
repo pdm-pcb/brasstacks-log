@@ -1,12 +1,17 @@
 set(TARGET_NAME brasstacks_log)
 
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/version.hpp.in"
+    "${CMAKE_SOURCE_DIR}/include/brasstacks/log/version.hpp"
+)
+
 file(
     GLOB_RECURSE TARGET_SOURCE
-    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
+    "${PROJECT_SOURCE_DIR}/src/*.cpp"
 )
 file(
     GLOB_RECURSE TARGET_HEADERS
-    "${CMAKE_SOURCE_DIR}/include/*.hpp"
+    "${PROJECT_SOURCE_DIR}/include/*.hpp"
 )
 
 add_library(
@@ -17,10 +22,11 @@ add_library(
 
 target_include_directories(
     ${TARGET_NAME} PUBLIC
-    ${CMAKE_SOURCE_DIR}/include/
+    ${PROJECT_SOURCE_DIR}/include/
 )
 
-include(FetchDeps)
+
+include("${PROJECT_SOURCE_DIR}/cmake/FetchDeps.cmake")
 FetchDeps()
 
 target_link_libraries(

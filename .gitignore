@@ -1,8 +1,11 @@
 .vs/
 .vscode/
+
 build/
 debug/
 release/
+
+**/version.hpp
 
 **/*.ilk
 **/*.pdb

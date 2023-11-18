@@ -1,4 +1,5 @@
 #include "brasstacks/log/ConsoleLog.hpp"
+#include "brasstacks/log/version.hpp"
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 
@@ -24,9 +25,7 @@ void ConsoleLog::init(Level log_level) {
     spdlog::set_pattern("%^[%T.%e][%t][%!()]: %v%$");
 
     // Print that we've initialized the logger
-    info("spdlog v{}.{}.{}", SPDLOG_VER_MAJOR,
-                             SPDLOG_VER_MINOR,
-                             SPDLOG_VER_PATCH);
+    info("brasstacks console logger v{}", BTX_LOG_VER);
 }
 
 } // namespace btx
