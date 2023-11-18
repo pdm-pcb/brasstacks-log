@@ -11,13 +11,13 @@ file(
 
 add_executable(
     ${TARGET_NAME} EXCLUDE_FROM_ALL
-	${TARGET_SOURCE}
-    ${TARGET_HEADERS}
+	"${TARGET_SOURCE}"
+    "${TARGET_HEADERS}"
 )
 
 target_include_directories(
     ${TARGET_NAME} PRIVATE
-    ${CMAKE_SOURCE_DIR}/include/
+    "${CMAKE_SOURCE_DIR}/include/"
 )
 
 target_link_libraries(
@@ -31,6 +31,6 @@ set_target_properties(
 	CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
 
-	RUNTIME_OUTPUT_DIRECTORY_DEBUG   ${CMAKE_SOURCE_DIR}/debug/bin
-	RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_SOURCE_DIR}/release/bin
+	RUNTIME_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_SOURCE_DIR}/debug/bin"
+	RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/release/bin"
 )
