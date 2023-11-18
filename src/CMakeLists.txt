@@ -1,8 +1,8 @@
 set(TARGET_NAME brasstacks_log)
 
 configure_file(
-    "${CMAKE_CURRENT_SOURCE_DIR}/version.hpp.in"
-    "${CMAKE_SOURCE_DIR}/include/brasstacks/log/version.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/version.hpp.in"
+    "${CMAKE_CURRENT_LIST_DIR}/version.hpp"
 )
 
 file(

@@ -1,5 +1,5 @@
 #include "brasstacks/log/ConsoleLog.hpp"
-#include "brasstacks/log/version.hpp"
+#include "version.hpp"
 
 #include <spdlog/sinks/stdout_color_sinks.h>
 

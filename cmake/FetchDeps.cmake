@@ -1,7 +1,7 @@
 function(FetchDeps)
     include(FetchContent)
 
-    message(STATUS "Fetching spdlog...")
+    message(STATUS "${PROJECT_NAME} v${PROJECT_VERSION}: Fetching spdlog...")
     FetchContent_Declare(
         spdlog EXCLUDE_FROM_ALL SYSTEM
         GIT_REPOSITORY https://github.com/gabime/spdlog
