@@ -1,40 +1,28 @@
-set(TARGET_NAME brasstacks_log_tests)
-
-include(FetchContent)
-
-FetchContent_Declare(
-    Catch2 EXCLUDE_FROM_ALL SYSTEM
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG 3f0283de7a9c43200033da996ff9093be3ac84dc # 2023-02-27
-    FIND_PACKAGE_ARGS 3.3.2
-)
-FetchContent_MakeAvailable(Catch2)
+set(TARGET_NAME brasstacks_tests)
 
 file(
-    GLOB_RECURSE TESTS_SOURCE
-    "*.cpp"
+    GLOB_RECURSE TARGET_SOURCE
+    "${CMAKE_SOURCE_DIR}/tests/*.cpp"
 )
-
 file(
-    GLOB_RECURSE TESTS_HEADERS
-    "*.hpp"
+    GLOB_RECURSE TARGET_HEADERS
+    "${CMAKE_SOURCE_DIR}/tests/*.hpp"
 )
 
 add_executable(
-    ${TARGET_NAME}
-	${TESTS_SOURCE}
-	${TESTS_HEADERS}
+    ${TARGET_NAME} EXCLUDE_FROM_ALL
+	${TARGET_SOURCE}
+    ${TARGET_HEADERS}
 )
 
 target_include_directories(
-    ${TARGET_NAME} PUBLIC
-    ${CMAKE_SOURCE_DIR}
+    ${TARGET_NAME} PRIVATE
+    ${CMAKE_SOURCE_DIR}/include/
 )
 
 target_link_libraries(
-	${TARGET_NAME} PUBLIC
-	brasstacks_log
-    Catch2::Catch2WithMain
+    ${TARGET_NAME} PRIVATE
+    brasstacks_log
 )
 
 set_target_properties(

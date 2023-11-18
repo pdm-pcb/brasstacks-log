@@ -1,18 +1,18 @@
 set(TARGET_NAME brasstacks_log)
 
 file(
-    GLOB_RECURSE LIBRARY_SOURCE
+    GLOB_RECURSE TARGET_SOURCE
     "${CMAKE_SOURCE_DIR}/src/*.cpp"
 )
 file(
-    GLOB_RECURSE LIBRARY_HEADERS
+    GLOB_RECURSE TARGET_HEADERS
     "${CMAKE_SOURCE_DIR}/include/*.hpp"
 )
 
 add_library(
     ${TARGET_NAME} STATIC
-	${LIBRARY_SOURCE}
-    ${LIBRARY_HEADERS}
+	${TARGET_SOURCE}
+    ${TARGET_HEADERS}
 )
 
 target_include_directories(
@@ -20,44 +20,45 @@ target_include_directories(
     ${CMAKE_SOURCE_DIR}/include/
 )
 
+target_link_libraries(
+    ${TARGET_NAME} PUBLIC
+    spdlog
+)
+
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU" OR
    CMAKE_CXX_COMPILER_ID MATCHES "Clang")
     target_compile_options(
-        ${TARGET_NAME} PUBLIC
-        "-Wall" # All, extra, and pedantic warnings
+        ${TARGET_NAME} PRIVATE
+        "-Wall"         # Enable most warnings
         "-Wextra"
-        "-pedantic"
+        "-pedantic"     # and language compliance checks
+        "-Werror"       # Warnings as errors
     )
 
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         target_compile_options(
-            ${TARGET_NAME} PUBLIC
+            ${TARGET_NAME} PRIVATE
             "-O0"       # No optimization
             "-ggdb3"    # All the gdb flags
         )
     elseif(CMAKE_BUILD_TYPE MATCHES "Release")
         target_compile_options(
-            ${TARGET_NAME} PUBLIC
+            ${TARGET_NAME} PRIVATE
             "-O3"       # Healthy optimization
         )
     endif()
 elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
-    target_compile_definitions(
-        ${TARGET_NAME} PUBLIC
-        "_CRT_SECURE_NO_WARNINGS" # Ignore "may be unsafe" warnings
-        "WIN64"                   # Prefer 64 bit address space
-    )
-
     target_compile_options(
-        ${TARGET_NAME} PUBLIC
-        "/Wall" # Warnin's
+        ${TARGET_NAME} PRIVATE
+        "/Wall"         # All warnings not disabled by default
+        "/WX"           # Warnings as errors
     )
 
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         target_compile_options(
-            ${TARGET_NAME} PUBLIC
+            ${TARGET_NAME} PRIVATE
             "/Od"       # Optimization disabled
-            "/Zi"		# Generate .pdb files: implied /debug
+            "/Zi"		# Generate .pdb files: implies /debug
             "/JMC"      # Just-My-Code: only step over user code
             "/RTCs"     # Runtime checks for stack frame behaviors
             "/RTCu"     # Runtime checks for uninitialized variables
@@ -67,7 +68,7 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
         )
     elseif(CMAKE_BUILD_TYPE MATCHES "Release")
         target_compile_options(
-            ${TARGET_NAME} PUBLIC
+            ${TARGET_NAME} PRIVATE
             "/O2"       # Optimization not disabled =D
         )
     endif()

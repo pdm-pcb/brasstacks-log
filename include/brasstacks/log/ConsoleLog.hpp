@@ -1,60 +1,51 @@
 #ifndef BRASSTACKS_LOG_CONSOLELOG_HPP
 #define BRASSTACKS_LOG_CONSOLELOG_HPP
 
-#include <string_view>
-#include <string>
-#include <chrono>
-#include <list>
-#include <mutex>
+#include <cstdlib>
+#include <format>
+#include <spdlog/spdlog.h>
 
 namespace btx {
 
-class ConsoleLog {
+class ConsoleLog final {
 public:
-    static void trace(std::string_view const msg);
-    static void info(std::string_view const msg);
-    static void warn(std::string_view const msg);
-    static void error(std::string_view const msg);
+    enum class Level : uint8_t {
+        TRACE,
+        INFO,
+        WARN,
+        ERROR,
+        CRITICAL
+    };
 
-    static void dump();
+    static void init(Level log_level);
+
+    template<typename ...T>
+    static void trace(std::format_string<T...> fmt, T&& ...args) {
+        spdlog::trace(fmt, std::forward<T>(args)...);
+    }
+
+    template<typename ...T>
+    static void info(std::format_string<T...> fmt, T&& ...args) {
+        spdlog::info(fmt, std::forward<T>(args)...);
+    }
+
+    template<typename ...T>
+    static void warn(std::format_string<T...> fmt, T&& ...args) {
+        spdlog::warn(fmt, std::forward<T>(args)...);
+    }
+
+    template<typename ...T>
+    static void error(std::format_string<T...> fmt, T&& ...args) {
+        spdlog::error(fmt, std::forward<T>(args)...);
+    }
+
+    template<typename ...T>
+    static void critical(std::format_string<T...> fmt, T&& ...args) {
+        spdlog::critical(fmt, std::forward<T>(args)...);
+        std::abort();
+    }
 
     ConsoleLog() = delete;
-    ~ConsoleLog() = delete;
-
-    ConsoleLog(ConsoleLog &&) = delete;
-    ConsoleLog(ConsoleLog const &) = delete;
-
-    ConsoleLog & operator=(ConsoleLog &&) = delete;
-    ConsoleLog & operator=(ConsoleLog const &) = delete;
-
-private:
-    using Clock = std::chrono::system_clock;
-    using TimePoint = std::chrono::time_point<Clock>;
-    using ClockRes = std::chrono::milliseconds;
-
-    struct Message {
-        TimePoint const ts;
-        std::string const msg;
-    };
-
-    struct MessageBuffer {
-        std::list<Message> list;
-        std::mutex mutex;
-    };
-
-    static MessageBuffer _trace_buffer;
-    static MessageBuffer _info_buffer;
-    static MessageBuffer _warn_buffer;
-    static MessageBuffer _error_buffer;
-
-    struct Colors {
-        static constexpr char red[]    = "\033[31m";
-        static constexpr char green[]  = "\033[32m";
-        static constexpr char yellow[] = "\033[33m";
-        static constexpr char reset[]  = "\033[m";
-    };
-
-    static Message _format(char const *color, std::string_view const msg);
 };
 
 } // namespace btx

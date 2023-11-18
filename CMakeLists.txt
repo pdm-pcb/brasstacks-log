@@ -2,14 +2,13 @@ cmake_minimum_required(VERSION 3.20)
 
 project(
     brasstacks_log
-    VERSION 0.1.0
-    DESCRIPTION "Console logging for learning and video games."
-    LANGUAGES CXX C
+    VERSION 0.0.1
+    DESCRIPTION "A simple wrapper for spdlog"
+    LANGUAGES CXX
 )
 
-add_subdirectory(src)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_DIR}/cmake)
+include(FetchDeps)
 
-# Only touch tests if this is the root project
-if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_SOURCE_DIR})
-    add_subdirectory(tests)
-endif()
+add_subdirectory(src)
+add_subdirectory(tests)
