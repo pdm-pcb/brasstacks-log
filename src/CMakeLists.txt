@@ -2,7 +2,7 @@ set(TARGET_NAME brasstacks_log)
 
 file(
     GLOB_RECURSE TARGET_SOURCE
-    "${CMAKE_SOURCE_DIR}/src/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 )
 file(
     GLOB_RECURSE TARGET_HEADERS
@@ -19,6 +19,9 @@ target_include_directories(
     ${TARGET_NAME} PUBLIC
     ${CMAKE_SOURCE_DIR}/include/
 )
+
+include(FetchDeps)
+FetchDeps()
 
 target_link_libraries(
     ${TARGET_NAME} PUBLIC

@@ -1,12 +1,12 @@
-set(TARGET_NAME brasstacks_tests)
+set(TARGET_NAME log_test)
 
 file(
     GLOB_RECURSE TARGET_SOURCE
-    "${CMAKE_SOURCE_DIR}/tests/*.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp"
 )
 file(
     GLOB_RECURSE TARGET_HEADERS
-    "${CMAKE_SOURCE_DIR}/tests/*.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/*.hpp"
 )
 
 add_executable(
