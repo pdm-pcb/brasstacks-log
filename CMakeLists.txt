@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.23) # Required for File Sets
+cmake_minimum_required(VERSION 3.25) # Required for FetchContent SYSTEM
 
 project(
     brasstacks_log

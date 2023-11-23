@@ -3,7 +3,7 @@ function(FetchDeps)
 
     message(STATUS "${PROJECT_NAME} v${PROJECT_VERSION}: Fetching spdlog...")
     FetchContent_Declare(
-        spdlog EXCLUDE_FROM_ALL SYSTEM
+        spdlog SYSTEM
         GIT_REPOSITORY https://github.com/gabime/spdlog
         GIT_TAG 7e635fca68d014934b4af8a1cf874f63989352b7 # 2023-07-08
         FIND_PACKAGE_ARGS 1.12.0
