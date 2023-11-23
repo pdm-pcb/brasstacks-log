@@ -17,7 +17,7 @@ public:
         CRITICAL
     };
 
-    static void init(Level log_level = Level::TRACE);
+    static void set_level(Level log_level);
 
     ConsoleLog() = delete;
 };
