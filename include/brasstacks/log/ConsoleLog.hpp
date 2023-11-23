@@ -22,11 +22,11 @@ public:
     ConsoleLog() = delete;
 };
 
-#define BTX_TRACE(fmt, ...)    SPDLOG_TRACE(fmt, __VA_ARGS__)
-#define BTX_INFO(fmt, ...)     SPDLOG_INFO(fmt, __VA_ARGS__)
-#define BTX_WARN(fmt, ...)     SPDLOG_WARN(fmt, __VA_ARGS__)
-#define BTX_ERROR(fmt, ...)    SPDLOG_ERROR(fmt, __VA_ARGS__)
-#define BTX_CRITICAL(fmt, ...) SPDLOG_CRITICAL(fmt, __VA_ARGS__); std::abort()
+#define BTX_TRACE(...)    SPDLOG_TRACE(__VA_ARGS__)
+#define BTX_INFO(...)     SPDLOG_INFO(__VA_ARGS__)
+#define BTX_WARN(...)     SPDLOG_WARN(__VA_ARGS__)
+#define BTX_ERROR(...)    SPDLOG_ERROR(__VA_ARGS__)
+#define BTX_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__); std::abort()
 
 } // namespace btx
 
