@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.23) # Required for File Sets
 
 project(
     brasstacks_log
-    VERSION 0.2.0
+    VERSION 0.2.1
     DESCRIPTION "A simple wrapper for spdlog."
     LANGUAGES CXX
 )
