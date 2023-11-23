@@ -1,22 +1,20 @@
-#include "brasstacks/log/ConsoleLog.hpp"
+#include "brasstacks/log/Log.hpp"
 
 int main() {
-    btx::ConsoleLog::set_level(btx::ConsoleLog::Level::TRACE);
+    btx::Log::trace("Trace int '{}'!", 123);
 
-    BTX_TRACE("Trace int '{}'!", 123);
-
-    BTX_INFO("Info string literal '{}'!", "lolwut");
+    btx::Log::info("Info string literal '{}'!", "lolwut");
 
     std::string output("something to say");
-    BTX_WARN("Warn string '{}'!", output);
+    btx::Log::warn("Warn string '{}'!", output);
 
-    BTX_ERROR("Error float: '{:04f}'!", 3.14159f);
+    btx::Log::error("Error float: '{:04f}'!", 3.14159f);
 
-    btx::ConsoleLog::set_level(btx::ConsoleLog::Level::WARN);
-    BTX_INFO("Now this won't show...");
-    BTX_WARN("...but this will.");
+    btx::Log::set_level(btx::Log::Level::WARN);
+    btx::Log::info("Now this won't show...");
+    btx::Log::warn("...but this will.");
 
-    BTX_CRITICAL("End of the line.");
+    btx::Log::critical("End of the line.");
 
     return 0;
 }
