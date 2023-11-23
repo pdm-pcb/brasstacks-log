@@ -17,36 +17,16 @@ public:
         CRITICAL
     };
 
-    static void init(Level log_level);
-
-    template<typename ...T>
-    static void trace(std::format_string<T...> fmt, T&& ...args) {
-        spdlog::trace(fmt, std::forward<T>(args)...);
-    }
-
-    template<typename ...T>
-    static void info(std::format_string<T...> fmt, T&& ...args) {
-        spdlog::info(fmt, std::forward<T>(args)...);
-    }
-
-    template<typename ...T>
-    static void warn(std::format_string<T...> fmt, T&& ...args) {
-        spdlog::warn(fmt, std::forward<T>(args)...);
-    }
-
-    template<typename ...T>
-    static void error(std::format_string<T...> fmt, T&& ...args) {
-        spdlog::error(fmt, std::forward<T>(args)...);
-    }
-
-    template<typename ...T>
-    static void critical(std::format_string<T...> fmt, T&& ...args) {
-        spdlog::critical(fmt, std::forward<T>(args)...);
-        std::abort();
-    }
+    static void init(Level log_level = Level::TRACE);
 
     ConsoleLog() = delete;
 };
+
+#define BTX_TRACE(fmt, ...)    SPDLOG_TRACE(fmt, __VA_ARGS__)
+#define BTX_INFO(fmt, ...)     SPDLOG_INFO(fmt, __VA_ARGS__)
+#define BTX_WARN(fmt, ...)     SPDLOG_WARN(fmt, __VA_ARGS__)
+#define BTX_ERROR(fmt, ...)    SPDLOG_ERROR(fmt, __VA_ARGS__)
+#define BTX_CRITICAL(fmt, ...) SPDLOG_CRITICAL(fmt, __VA_ARGS__); std::abort()
 
 } // namespace btx
 

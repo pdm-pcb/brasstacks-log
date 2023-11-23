@@ -3,14 +3,14 @@
 int main() {
     btx::ConsoleLog::init(btx::ConsoleLog::Level::TRACE);
 
-    btx::ConsoleLog::trace("Trace int '{}'!", 123);
+    BTX_TRACE("Trace int '{}'!", 123);
 
-    btx::ConsoleLog::info("Info string literal '{}'!", "lolwut");
+    BTX_INFO("Info string literal '{}'!", "lolwut");
 
     std::string output("something to say");
-    btx::ConsoleLog::warn("Warn string '{}'!", output);
+    BTX_WARN("Warn string '{}'!", output);
 
-    btx::ConsoleLog::error("Error float: '{:04f}'!", 3.14159f);
+    BTX_ERROR("Error float: '{:04f}'!", 3.14159f);
 
     return 0;
 }

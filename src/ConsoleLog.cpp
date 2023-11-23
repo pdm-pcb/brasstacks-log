@@ -22,10 +22,10 @@ void ConsoleLog::init(Level log_level) {
 
     // The format string requests color, time with milliseconds, thread ID,
     // and the name of the function in which the logging macro was expanded
-    spdlog::set_pattern("%^[%T.%e][%t][%!()]: %v%$");
+    spdlog::set_pattern("%^[%T.%e][%t][%!]: %v%$");
 
     // Print that we've initialized the logger
-    info("brasstacks console logger v{}", BTX_LOG_VER);
+    BTX_INFO("brasstacks console logger v{}", BTX_LOG_VER);
 }
 
 } // namespace btx
