@@ -17,7 +17,6 @@ target_sources(
     ${PROJECT_NAME}
     PRIVATE
         "${PROJECT_SOURCES}"
-        "${PROJECT_SOURCE_DIR}/src/version.hpp"
     PUBLIC
         FILE_SET HEADERS
         BASE_DIRS "${PROJECT_SOURCE_DIR}/include/"
