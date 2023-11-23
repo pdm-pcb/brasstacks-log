@@ -9,8 +9,8 @@ file(
 )
 
 configure_file(
-    "./version.hpp.in"
-    "./version.hpp"
+    "${PROJECT_SOURCE_DIR}/src/version.hpp.in"
+    "${PROJECT_SOURCE_DIR}/src/version.hpp"
 )
 
 target_sources(
