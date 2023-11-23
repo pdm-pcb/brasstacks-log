@@ -6,7 +6,7 @@
 namespace btx {
 
 // =============================================================================
-void ConsoleLog::set_level(Level log_level) {
+void ConsoleLog::init() {
     // Ensure we only set these values one time
     static std::once_flag initialized;
     std::call_once(initialized, [] {
@@ -17,7 +17,15 @@ void ConsoleLog::set_level(Level log_level) {
         // The format string requests color, time with milliseconds, thread ID,
         // and the name of the function in which the logging macro was expanded
         spdlog::set_pattern("%^[%T.%e][%t][%!]: %v%$");
+
+        // Default to errors or above
+        spdlog::set_level(spdlog::level::err);
     });
+}
+
+// =============================================================================
+void ConsoleLog::set_level(Level log_level) {
+    init(); // Make sure we're set up
 
     // Set the severity to print
     switch(log_level) {

@@ -17,17 +17,18 @@ public:
         CRITICAL
     };
 
+    static void init();
     static void set_level(Level log_level);
 
     ConsoleLog() = delete;
 };
 
-#define BTX_TRACE(...)    SPDLOG_TRACE(__VA_ARGS__)
-#define BTX_INFO(...)     SPDLOG_INFO(__VA_ARGS__)
-#define BTX_WARN(...)     SPDLOG_WARN(__VA_ARGS__)
-#define BTX_ERROR(...)    SPDLOG_ERROR(__VA_ARGS__)
-#define BTX_CRITICAL(...) SPDLOG_CRITICAL(__VA_ARGS__); std::abort()
-
 } // namespace btx
+
+#define BTX_TRACE(...)    btx::ConsoleLog::init(); SPDLOG_TRACE(__VA_ARGS__)
+#define BTX_INFO(...)     btx::ConsoleLog::init(); SPDLOG_INFO(__VA_ARGS__)
+#define BTX_WARN(...)     btx::ConsoleLog::init(); SPDLOG_WARN(__VA_ARGS__)
+#define BTX_ERROR(...)    btx::ConsoleLog::init(); SPDLOG_ERROR(__VA_ARGS__)
+#define BTX_CRITICAL(...) btx::ConsoleLog::init(); SPDLOG_CRITICAL(__VA_ARGS__); std::abort()
 
 #endif // BRASSTACKS_LOG_CONSOLELOG_HPP
