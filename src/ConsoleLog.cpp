@@ -34,7 +34,7 @@ void Log::_init() {
         // Default to everything
         spdlog::set_level(spdlog::level::trace);
 
-        spdlog::info("Initialized brasstacks console logger v{}", BTX_LOG_VER);
+        spdlog::info("brasstacks console logger v{}", BTX_LOG_VER);
     });
 }
 
